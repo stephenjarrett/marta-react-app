@@ -2,4 +2,30 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.all-trains-container {
+  /* border: solid 2px blue; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 25px;
+  /* width: 80%; */
+}
+
+.trainContainer {
+  border: 1px solid black;
+  width: 225px;
+  padding: 10px;
+}
+
+.trainInfo {
+  text-align: left;
+}
+
+.trainContainer:hover {
+  background-color: lightgray;
+  border: 1px solid rgb(255, 208, 0);
 }
