@@ -8,37 +8,32 @@
 import React from 'react';
 import MartaTrain from './MartaTrain.js'
 
-class MartaLine extends React.Component {
+const MartaLine = (props) => {
 
-    constructor(props) {
-        super(props);
+    // the lineName is props.lineName
+    // Let's filter by the lineName.
+    // As we filter, we'll compare to the lower case version
+    // of the train's LINE property
+    let filteredTrainArray = props.trainArray.filter(train => {
+        return train.LINE.toLowerCase() === props.lineName;
+    });
 
-        this.state = {
-            waitingTime: this.props.waitingTime,
-            destination: this.props.destination,
-            direction: this.props.direction
-        };
-    }
 
-    render() {
-        return (
-            
-            <div className='train-line'> 
-                <MartaTrain />
+    // I can map through my props.trainArray
+    // to draw each MartaTrain
+    let trainComponents = filteredTrainArray.map(_convertTrainToElement)
 
-            <div className='trainContainer'>
-                <h1>{this.props.line}</h1>
-                <ul className='trainInfo'>
-                    <li>Destination: {this.state.destination}</li>
-                    <li>Direction: {this.state.direction}</li>
-                    <li>Waiting Time: {this.state.waitingTime}</li>
-                    <li>Last Update: {this.props.eventTime}</li>
-                </ul>
+    return (
+        <div className="train-line">
+            <div className="all-trains-container">
+                {trainComponents}
             </div>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default MartaLine;
+const _convertTrainToElement = (train) => {
+    return <MartaTrain train={train} />
+};
 
+export default MartaLine;

@@ -1,34 +1,18 @@
 import React from 'react';
 
-class MartaTrain extends React.Component {
+const MartaTrain = ({train}) => {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            waitingTime: this.props.waitingTime,
-            destination: this.props.destination,
-            direction: this.props.direction
-        };
-    }
-
-    render() {
-        return (
-            <div className='trainContainer'>
-                <h1>{this.props.line}</h1>
-                <ul className='trainInfo'>
-                    <li>Destination: {this.state.destination}</li>
-                    <li>Direction: {this.state.direction}</li>
-                    <li>Waiting Time: {this.state.waitingTime}</li>
-                    <li>Last Update: {this.props.eventTime}</li>
+    return (
+        <div className="trainContainer" key={train.TRAIN_ID}>
+                <h1>{train.LINE}</h1>
+                <ul className="trainInfo">
+                    <li>Destination: {train.DESTINATION}</li>
+                    <li>Direction: {train.DIRECTION}</li>
+                    <li>Waiting Time: {train.WAITING_TIME}</li>
+                    <li>Last Update: {train.EVENT_TIME}</li>
                 </ul>
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
-
-
-
 export default MartaTrain;
-

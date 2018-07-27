@@ -10,17 +10,52 @@ class MartaDashboard extends React.Component {
         super(props);
 
         this.state = {
-            data: []
+            data: [],
+            visibleLineNames: ['red', 'green', 'blue', 'gold']
         };
     }
 
+    render() {
+
+        let martaLines = this.state.visibleLineNames.map(line => {
+        return <MartaLine lineName={line} trainArray={this.state.data} />;
+        })
+
+        return (
+            <div>
+                <h1>It's Marta Time</h1>
+                <div className="btn-container">
+                    <button onClick={() => {this._toggleLine("all")}}>all</button>
+                    <button onClick={() => {this._toggleLine("red")}}>red</button>
+                    <button onClick={() => {this._toggleLine("green")}}>green</button>
+                    <button onClick={() => {this._toggleLine("blue")}}>blue</button>
+                    <button onClick={() => {this._toggleLine("gold")}}>gold</button>
+                </div>
+                {martaLines}
+            </div>
+        );
+    }
+
     componentDidMount () {
-        // this._fetchMartaAPI
-        setInterval(this._fetchMartaAPI, 10000);
+        this._fetchMartaData();
+        setInterval(this._fetchMartaData, 10000)
+    }
+
+    _toggleLine = (nameOfLine) => {
+        // Check if nameOfLine is "all"
+        if (nameOfLine === "all") {
+            this.setState({
+                visibleLineNames: ["green", "blue", "red", "gold"]
+            })
+        } else {
+            this.setState({
+                visibleLineNames: [nameOfLine]
+            });
+        }
     }
 
     // Calls on MARTA API, cleans the data and sorts it by time
-    _fetchMartaAPI = () => {
+    _fetchMartaData = () => {
         fetch(MARTA_URL, {
                 method: 'get'
             }).then((response) => {
@@ -28,7 +63,6 @@ class MartaDashboard extends React.Component {
             }).then(this._cleanJSONMartaData)
             .then(this._sortByTime)
             .then((jsonData) => {
-                console.log(jsonData);
                 this.setState({
                     data: jsonData
                 });
@@ -46,16 +80,7 @@ class MartaDashboard extends React.Component {
         let justTheTrains = trainsById.values();
         return Array.from(justTheTrains);
     }
-
-    // Calls on MartaTrain component
-    _convertTrainToElement = (train) => {
-        let trainElement = (
-                <MartaTrain key={train.TRAIN_ID} destination={train.DESTINATION} line={train.LINE} direction={train.DIRECTION} waitingTime={train.WAITING_TIME} eventTime={train.EVENT_TIME} />
-        );
-
-        return trainElement
-    }
-
+    
     // Sorts trains array by the provided json EVENT_TIME from smallest to largest
     _sortByTime = (trains) => {
             let sortedTrains = trains.sort(function (a, b) {
@@ -69,19 +94,6 @@ class MartaDashboard extends React.Component {
             });
         return sortedTrains
     }
-
-    render() {
-        return (
-            <div>
-                <h1>
-                It's Marta Time
-                </h1>
-                <div className='all-trains-container'>
-                {this.state.data.map(this._convertTrainToElement)}
-                </div>
-            </div>
-        );
-    }
 }
-
+    
 export default MartaDashboard;
