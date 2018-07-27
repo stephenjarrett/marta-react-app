@@ -3,7 +3,7 @@ import React from 'react';
 const MartaTrain = ({train}) => {
 
     return (
-        <div className="trainContainer" key={train.TRAIN_ID}>
+        <div className="trainContainer">
                 <h1>{train.LINE}</h1>
                 <ul className="trainInfo">
                     <li>Destination: {train.DESTINATION}</li>

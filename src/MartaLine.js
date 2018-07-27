@@ -33,7 +33,7 @@ const MartaLine = (props) => {
 }
 
 const _convertTrainToElement = (train) => {
-    return <MartaTrain train={train} />
+    return <MartaTrain key={train.TRAIN_ID} train={train} />
 };
 
 export default MartaLine;
